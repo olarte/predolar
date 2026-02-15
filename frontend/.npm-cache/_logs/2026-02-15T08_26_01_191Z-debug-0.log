@@ -1,0 +1,42 @@
+0 verbose cli /usr/local/bin/node /usr/local/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@11.6.2
+2 info using node@v24.13.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/danielolarte/Documents/Codex/PREDOLAR/frontend/.npmrc
+5 silly config load:file:/Users/danielolarte/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm exec vercel --version
+8 verbose argv "exec" "--" "vercel" "--version"
+9 verbose logfile logs-max:10 dir:/Users/danielolarte/Documents/Codex/PREDOLAR/frontend/.npm-cache/_logs/2026-02-15T08_26_01_191Z-
+10 verbose logfile /Users/danielolarte/Documents/Codex/PREDOLAR/frontend/.npm-cache/_logs/2026-02-15T08_26_01_191Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+14 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+15 http fetch GET https://registry.npmjs.org/vercel attempt 1 failed with ENOTFOUND
+16 http fetch GET https://registry.npmjs.org/vercel attempt 2 failed with ENOTFOUND
+17 http fetch GET https://registry.npmjs.org/vercel attempt 3 failed with ENOTFOUND
+18 verbose type system
+19 verbose stack FetchError: request to https://registry.npmjs.org/vercel failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
+19 verbose stack     at ClientRequest.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/minipass-fetch/lib/index.js:130:14)
+19 verbose stack     at ClientRequest.emit (node:events:508:28)
+19 verbose stack     at emitErrorEvent (node:_http_client:108:11)
+19 verbose stack     at _destroy (node:_http_client:962:9)
+19 verbose stack     at onSocketNT (node:_http_client:982:5)
+19 verbose stack     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+20 error code ENOTFOUND
+21 error syscall getaddrinfo
+22 error errno ENOTFOUND
+23 error network request to https://registry.npmjs.org/vercel failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
+24 error network This is a problem related to network connectivity.
+24 error network In most cases you are behind a proxy or have bad network settings.
+24 error network
+24 error network If you are behind a proxy, please make sure that the
+24 error network 'proxy' config is set properly.  See: 'npm help config'
+25 verbose cwd /Users/danielolarte/Documents/Codex/PREDOLAR/frontend
+26 verbose os Darwin 23.6.0
+27 verbose node v24.13.0
+28 verbose npm  v11.6.2
+29 verbose exit 1
+30 verbose code 1
+31 error A complete log of this run can be found in: /Users/danielolarte/Documents/Codex/PREDOLAR/frontend/.npm-cache/_logs/2026-02-15T08_26_01_191Z-debug-0.log

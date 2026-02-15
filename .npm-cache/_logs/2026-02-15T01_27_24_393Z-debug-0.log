@@ -1,0 +1,47 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.6.2
+2 info using node@v24.13.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/danielolarte/Documents/Codex/PREDOLAR/.npmrc
+5 silly config load:file:/Users/danielolarte/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install
+8 verbose argv "install"
+9 verbose logfile logs-max:10 dir:/Users/danielolarte/Documents/Codex/PREDOLAR/.npm-cache/_logs/2026-02-15T01_27_24_393Z-
+10 verbose logfile /Users/danielolarte/Documents/Codex/PREDOLAR/.npm-cache/_logs/2026-02-15T01_27_24_393Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly logfile done cleaning log files
+14 silly idealTree buildDeps
+15 silly fetch manifest viem@^2.37.0
+16 silly packumentCache full:https://registry.npmjs.org/viem cache-miss
+17 http fetch GET https://registry.npmjs.org/viem attempt 1 failed with ENOTFOUND
+18 http fetch GET https://registry.npmjs.org/viem attempt 2 failed with ENOTFOUND
+19 http fetch GET https://registry.npmjs.org/viem attempt 3 failed with ENOTFOUND
+20 silly placeDep ROOT viem@ OK for: predolar-mvp@0.1.0 want: ^2.37.0
+21 verbose type system
+22 verbose stack FetchError: request to https://registry.npmjs.org/viem failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
+22 verbose stack     at ClientRequest.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/minipass-fetch/lib/index.js:130:14)
+22 verbose stack     at ClientRequest.emit (node:events:508:28)
+22 verbose stack     at emitErrorEvent (node:_http_client:108:11)
+22 verbose stack     at _destroy (node:_http_client:962:9)
+22 verbose stack     at onSocketNT (node:_http_client:982:5)
+22 verbose stack     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+23 error code ENOTFOUND
+24 error syscall getaddrinfo
+25 error errno ENOTFOUND
+26 error network request to https://registry.npmjs.org/viem failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
+27 error network This is a problem related to network connectivity.
+27 error network In most cases you are behind a proxy or have bad network settings.
+27 error network
+27 error network If you are behind a proxy, please make sure that the
+27 error network 'proxy' config is set properly.  See: 'npm help config'
+28 silly unfinished npm timer reify 1771118844937
+29 silly unfinished npm timer reify:loadTrees 1771118844941
+30 verbose cwd /Users/danielolarte/Documents/Codex/PREDOLAR
+31 verbose os Darwin 23.6.0
+32 verbose node v24.13.0
+33 verbose npm  v11.6.2
+34 verbose exit 1
+35 verbose code 1
+36 error A complete log of this run can be found in: /Users/danielolarte/Documents/Codex/PREDOLAR/.npm-cache/_logs/2026-02-15T01_27_24_393Z-debug-0.log

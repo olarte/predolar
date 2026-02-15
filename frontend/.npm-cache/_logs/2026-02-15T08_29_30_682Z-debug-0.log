@@ -1,0 +1,24 @@
+0 verbose cli /usr/local/bin/node /usr/local/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@11.6.2
+2 info using node@v24.13.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/danielolarte/Documents/Codex/PREDOLAR/frontend/.npmrc
+5 silly config load:file:/Users/danielolarte/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm exec vercel --prod
+8 verbose argv "exec" "--" "vercel" "--prod"
+9 verbose logfile logs-max:10 dir:/Users/danielolarte/Documents/Codex/PREDOLAR/frontend/.npm-cache/_logs/2026-02-15T08_29_30_682Z-
+10 verbose logfile /Users/danielolarte/Documents/Codex/PREDOLAR/frontend/.npm-cache/_logs/2026-02-15T08_29_30_682Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+14 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+15 http fetch GET 200 https://registry.npmjs.org/vercel 200ms (cache revalidated)
+16 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+17 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+18 verbose cwd /Users/danielolarte/Documents/Codex/PREDOLAR/frontend
+19 verbose os Darwin 23.6.0
+20 verbose node v24.13.0
+21 verbose npm  v11.6.2
+22 verbose exit 1
+23 verbose code 1
