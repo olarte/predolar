@@ -19,7 +19,7 @@ const FACTORY_ABI = parseAbi([
 ]);
 
 const MARKET_ABI = parseAbi([
-  "function seedLiquidity(uint256 stableBidPerToken, uint256 outcomeAskPerToken, int16 bidTick, int16 askTick) external",
+  "function seedLiquidity(uint256 stablePerSide, uint256 outcomePerSide) external",
   "function resolve(uint256 finalTRM) external",
   "function closeTimestamp() external view returns (uint256)"
 ]);
@@ -53,6 +53,33 @@ function nearestTen(value: number) {
   return Math.round(value / 10) * 10;
 }
 
+function parseLocaleNumber(rawValue: string) {
+  const cleaned = rawValue.trim().replace(/\s/g, "");
+  if (!cleaned) return NaN;
+
+  const hasComma = cleaned.includes(",");
+  const hasDot = cleaned.includes(".");
+
+  // Handles formats like "3,659.96" (US) and "3.659,96" (EU/LatAm)
+  if (hasComma && hasDot) {
+    const lastComma = cleaned.lastIndexOf(",");
+    const lastDot = cleaned.lastIndexOf(".");
+    if (lastDot > lastComma) {
+      // Comma is thousands separator
+      return Number(cleaned.replace(/,/g, ""));
+    }
+    // Dot is thousands separator
+    return Number(cleaned.replace(/\./g, "").replace(",", "."));
+  }
+
+  // Only comma present, assume decimal comma.
+  if (hasComma) return Number(cleaned.replace(",", "."));
+  // Only dot present, assume decimal dot.
+  if (hasDot) return Number(cleaned);
+  // Plain integer string.
+  return Number(cleaned);
+}
+
 async function fetchTRM() {
   const endpoint =
     process.env.TRM_API_URL ||
@@ -64,8 +91,8 @@ async function fetchTRM() {
   const data = (await response.json()) as Array<Record<string, string>>;
   if (!Array.isArray(data) || data.length === 0) throw new Error("TRM response is empty");
 
-  const raw = (data[0].valor || "").replace(/\./g, "").replace(",", ".");
-  const trm = Number(raw);
+  const raw = data[0].valor || "";
+  const trm = parseLocaleNumber(raw);
   if (!Number.isFinite(trm)) throw new Error(`Cannot parse TRM value: ${data[0].valor}`);
 
   return trm;
@@ -92,7 +119,7 @@ function buildClients() {
   return { publicClient, walletClient, account };
 }
 
-async function createFlow(factoryAddress: Address, liquidityStablePerToken: string, outcomeAskPerToken: string, bidTick: number, askTick: number) {
+async function createFlow(factoryAddress: Address, liquidityStablePerSide: string, outcomePerSide: string) {
   const { publicClient, walletClient, account } = buildClients();
 
   const { year, month, day } = getColombiaNowParts();
@@ -137,15 +164,15 @@ async function createFlow(factoryAddress: Address, liquidityStablePerToken: stri
 
   const skipSeed = (process.env.SKIP_SEED_LIQUIDITY || "").toLowerCase() === "true";
   if (!skipSeed) {
-    const stableBidAmount = parseUnits(liquidityStablePerToken, 6);
-    const outcomeAskAmount = parseUnits(outcomeAskPerToken, 6);
+    const stableAmount = parseUnits(liquidityStablePerSide, 6);
+    const outcomeAmount = parseUnits(outcomePerSide, 6);
 
     const approveHash = await walletClient.writeContract({
       account,
       address: stablecoin,
       abi: ERC20_ABI,
       functionName: "approve",
-      args: [marketAddress, stableBidAmount * 2n]
+      args: [marketAddress, stableAmount * 2n]
     });
     await publicClient.waitForTransactionReceipt({ hash: approveHash });
 
@@ -155,7 +182,7 @@ async function createFlow(factoryAddress: Address, liquidityStablePerToken: stri
         address: marketAddress,
         abi: MARKET_ABI,
         functionName: "seedLiquidity",
-        args: [stableBidAmount, outcomeAskAmount, bidTick, askTick]
+        args: [stableAmount, outcomeAmount]
       });
       await publicClient.waitForTransactionReceipt({ hash: seedHash });
       console.log("Liquidity seeded");
@@ -219,11 +246,9 @@ async function main() {
   if (!factoryAddress) throw new Error("Set MARKET_FACTORY_ADDRESS in env");
 
   if (mode === "create") {
-    const liquidityStablePerToken = process.env.SEED_LIQUIDITY_STABLE_BID_PER_TOKEN || "100";
-    const outcomeAskPerToken = process.env.SEED_LIQUIDITY_OUTCOME_ASK_PER_TOKEN || "100";
-    const bidTick = Number(process.env.SEED_BID_TICK || -250);
-    const askTick = Number(process.env.SEED_ASK_TICK || 250);
-    await createFlow(factoryAddress, liquidityStablePerToken, outcomeAskPerToken, bidTick, askTick);
+    const liquidityStablePerSide = process.env.SEED_LIQUIDITY_STABLE_PER_SIDE || "100";
+    const outcomePerSide = process.env.SEED_LIQUIDITY_OUTCOME_PER_SIDE || "100";
+    await createFlow(factoryAddress, liquidityStablePerSide, outcomePerSide);
     return;
   }
 

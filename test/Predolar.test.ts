@@ -6,18 +6,14 @@ describe("Predolar MVP", function () {
     const [owner, agent, user] = await ethers.getSigners();
 
     const MockToken = await ethers.getContractFactory("MockERC20");
-    const stable = await MockToken.deploy("USD Coin", "USDC");
+    const stable = await MockToken.deploy("USD Coin", "USDC", 6);
     await stable.waitForDeployment();
-
-    const MockExchange = await ethers.getContractFactory("MockStablecoinExchange");
-    const exchange = await MockExchange.deploy();
-    await exchange.waitForDeployment();
 
     const Factory = await ethers.getContractFactory("MarketFactory");
     const factory = await Factory.deploy(
       owner.address,
       await stable.getAddress(),
-      await exchange.getAddress(),
+      ethers.ZeroAddress,
       agent.address
     );
     await factory.waitForDeployment();
@@ -35,24 +31,21 @@ describe("Predolar MVP", function () {
     const yes = await ethers.getContractAt("OutcomeToken", yesTokenAddress);
     const no = await ethers.getContractAt("OutcomeToken", noTokenAddress);
 
-    await exchange.setQuoteToken(yesTokenAddress, await stable.getAddress());
-    await exchange.setQuoteToken(noTokenAddress, await stable.getAddress());
-
-    await stable.mint(agent.address, ethers.parseUnits("1000", 18));
+    await stable.mint(agent.address, ethers.parseUnits("1000", 6));
     await stable
       .connect(agent)
-      .approve(marketAddress, ethers.parseUnits("200", 18));
+      .approve(marketAddress, ethers.parseUnits("200", 6));
 
     await market
       .connect(agent)
-      .seedLiquidity(ethers.parseUnits("100", 18), ethers.parseUnits("100", 18), -250, 250);
+      .seedLiquidity(ethers.parseUnits("100", 6), ethers.parseUnits("100", 6));
 
-    await stable.mint(user.address, ethers.parseUnits("50", 18));
-    await stable.connect(user).approve(marketAddress, ethers.parseUnits("50", 18));
-    await market.connect(user).mintPosition(ethers.parseUnits("50", 18));
+    await stable.mint(user.address, ethers.parseUnits("50", 6));
+    await stable.connect(user).approve(marketAddress, ethers.parseUnits("50", 6));
+    await market.connect(user).mintPosition(ethers.parseUnits("50", 6));
 
-    expect(await yes.balanceOf(user.address)).to.equal(ethers.parseUnits("50", 18));
-    expect(await no.balanceOf(user.address)).to.equal(ethers.parseUnits("50", 18));
+    expect(await yes.balanceOf(user.address)).to.equal(ethers.parseUnits("50", 6));
+    expect(await no.balanceOf(user.address)).to.equal(ethers.parseUnits("50", 6));
 
     await ethers.provider.send("evm_increaseTime", [70]);
     await ethers.provider.send("evm_mine", []);
@@ -60,6 +53,6 @@ describe("Predolar MVP", function () {
     await market.connect(agent).resolve(4250);
     await market.connect(user).redeem();
 
-    expect(await stable.balanceOf(user.address)).to.equal(ethers.parseUnits("50", 18));
+    expect(await stable.balanceOf(user.address)).to.equal(ethers.parseUnits("50", 6));
   });
 });

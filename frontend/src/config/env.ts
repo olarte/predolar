@@ -5,5 +5,8 @@ export const APP_CONFIG = {
   marketFactory: import.meta.env.VITE_MARKET_FACTORY_ADDRESS || "",
   stablecoinExchange:
     import.meta.env.VITE_STABLECOIN_EXCHANGE_ADDRESS ||
-    "0xdec0000000000000000000000000000000000000"
+    "0xdec0000000000000000000000000000000000000",
+  feeTokenAddress:
+    import.meta.env.VITE_FEE_TOKEN_ADDRESS ||
+    "0x20c0000000000000000000000000000000000001"
 };
